@@ -10,6 +10,7 @@ import (
 
 func main() {
 	//1.建立一个链接（Dial拨号）
+	
 	conn, err := net.Dial("tcp", "localhost:8000")
 	if err != nil {
 		fmt.Printf("dial failed, err:%v\n", err)
