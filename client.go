@@ -4,35 +4,37 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-	"os"
-	"strings"
 )
 
 func main() {
-	//1.建立一个链接（Dial拨号）
-	
-	conn, err := net.Dial("tcp", "localhost:8000")
-	if err != nil {
-		fmt.Printf("dial failed, err:%v\n", err)
-		return
-	}
+	var tcpAddr *net.TCPAddr
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "127.0.0.1:8000")
 
-	fmt.Println("Conn Established...:")
+	conn, _ := net.DialTCP("tcp", nil, tcpAddr)
+	defer conn.Close()
+	fmt.Println("connected!")
 
-	//读入输入的信息
-	reader := bufio.NewReader(os.Stdin)
+	go onMessageRecived(conn)
+
+	// 控制台聊天功能加入
 	for {
-		data, err := reader.ReadString('\n')
-		if err != nil {
-			fmt.Printf("read from console failed, err:%v\n", err)
+		var msg string
+		fmt.Scanln(&msg)
+		if msg == "quit" {
 			break
 		}
+		b := []byte(msg + "\n")
+		conn.Write(b)
+	}
+}
 
-		data = strings.TrimSpace(data)
-		//传输数据到服务端
-		_, err = conn.Write([]byte(data))
+func onMessageRecived(conn *net.TCPConn) {
+	reader := bufio.NewReader(conn)
+	for {
+		msg, err := reader.ReadString('\n')
+		fmt.Println(msg)
 		if err != nil {
-			fmt.Printf("write failed, err:%v\n", err)
+			// quitSemaphore <- true
 			break
 		}
 	}
