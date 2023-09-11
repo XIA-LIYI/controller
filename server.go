@@ -25,6 +25,11 @@ func main() {
 			continue
 		}
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
+		fmt.Println("Total number of connections:" +  count)
+		count += 1
+		if (count == 10) {
+			break
+		}
 
 		// go tcpPipe(tcpConn)
 		for _, conn := range connectionMap {
@@ -32,8 +37,37 @@ func main() {
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
 	}
+	fmt.Println("Start? Type yes/no")
+	for {
+		var msg string
+		fmt.scanln(&msg)
+		if msg == "yes" {
+			go start()
+		}
+		if msg == "stop" {
+			go stop()
+		}
+	}
+	for {
+		var msg string
+		fmt.Scanln(&msg)
+		if msg == "quit" {
+			break
+		}
+		b := []byte(msg + "\n")
+		conn.Write(b)
+	}
 
 }
+
+func start() {
+
+}
+
+func stop() {
+
+}
+
 func tcpPipe(conn *net.TCPConn) {
 
 	defer conn.Close()
