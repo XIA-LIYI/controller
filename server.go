@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	"strconv"
 )
 
 var connectionMap map[string]*net.TCPConn
@@ -24,48 +25,55 @@ func main() {
 		if err != nil {
 			continue
 		}
-		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
-		fmt.Println("Total number of connections:" +  count)
 		count += 1
-		if (count == 10) {
-			break
-		}
-
+		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
+		fmt.Println("Total number of connections:", count)
+		
 		// go tcpPipe(tcpConn)
 		for _, conn := range connectionMap {
-			conn.Write([]byte(tcpConn.RemoteAddr().String()))
+			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
+			ipAddr = tcpConn.RemoteAddr().String().split(":")[0]
+			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(8000)))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
+		if (count == 2) {
+			break
+		}
 	}
 	fmt.Println("Start? Type yes/no")
 	for {
 		var msg string
-		fmt.scanln(&msg)
+		fmt.Scanln(&msg)
 		if msg == "yes" {
 			go start()
 		}
-		if msg == "stop" {
+		if msg == "no" {
 			go stop()
 		}
 	}
-	for {
-		var msg string
-		fmt.Scanln(&msg)
-		if msg == "quit" {
-			break
-		}
-		b := []byte(msg + "\n")
-		conn.Write(b)
-	}
+	// for {
+	// 	var msg string
+	// 	fmt.Scanln(&msg)
+	// 	if msg == "quit" {
+	// 		break
+	// 	}
+	// 	b := []byte(msg + "\n")
+	// 	conn.Write(b)
+	// }
 
 }
 
 func start() {
+	for _, conn := range connectionMap {
+		conn.Write([]byte("start"))
+	}
 
 }
 
 func stop() {
-
+	for _, conn := range connectionMap {
+		conn.Write([]byte("stop"))
+	}
 }
 
 func tcpPipe(conn *net.TCPConn) {
