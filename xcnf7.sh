@@ -2,4 +2,4 @@
 #SBATCH --time=10
 #SBATCH --nodelist=xcnf7
 
-./client_xcnf7
+srun ./client_xcnf7
