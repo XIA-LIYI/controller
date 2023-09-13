@@ -65,7 +65,7 @@ func main() {
 
 func listen() {
 	fmt.Println("Listening")
-	tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.48.134:8000")
+	tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.48.134:40000")
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 	defer tcpListener.Close()
 	for {
