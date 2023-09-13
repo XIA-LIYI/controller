@@ -42,8 +42,14 @@ func main() {
 			atomic.StoreInt32(&status, 0)
 			break
 		}
-		tcpAddr, _ := net.ResolveTCPAddr("tcp", content)
-		newConn, _ := net.DialTCP("tcp", nil, tcpAddr)
+		tcpAddr, err := net.ResolveTCPAddr("tcp", content)
+		if (err != nil) {
+			fmt.Println(err)
+		}
+		newConn, err := net.DialTCP("tcp", nil, tcpAddr)
+		if (err != nil) {
+			fmt.Println(err)
+		}
 		atomic.AddInt32(&count, 1)
 		go onReceive(newConn)
 		go onSend(newConn)
