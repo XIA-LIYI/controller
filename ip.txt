@@ -3,4 +3,5 @@ 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
 xlog1 192.168.51.112
 xlog2 192.168.51.113
 
-xcnf
+xcnf5 192.168.56.133
+xcnf6 192.168.56.134

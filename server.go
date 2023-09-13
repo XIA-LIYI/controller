@@ -13,7 +13,7 @@ var count = 0
 func main() {
 	var tcpAddr *net.TCPAddr
 	connectionMap = make(map[string]*net.TCPConn)
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", "127.0.0.1:8000")
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:8000")
 
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 
@@ -33,6 +33,7 @@ func main() {
 		for _, conn := range connectionMap {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
 			ipAddr = tcpConn.RemoteAddr().String().split(":")[0]
+			fmt.Println(ipAddr)
 			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(8000)))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
