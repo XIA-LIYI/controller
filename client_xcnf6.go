@@ -14,7 +14,7 @@ var totalByte uint64 = 0
 
 func main() {
 	var tcpAddr *net.TCPAddr
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:40000")
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:7000")
 
 	conn, _ := net.DialTCP("tcp", nil, tcpAddr)
 	defer conn.Close()
@@ -65,7 +65,7 @@ func main() {
 
 func listen() {
 	fmt.Println("Listening")
-	tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.48.134:40000")
+	tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.48.134:7000")
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 	defer tcpListener.Close()
 	for {
