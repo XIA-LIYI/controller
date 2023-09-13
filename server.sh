@@ -1,5 +1,6 @@
 #!/bin/sh
-#SBATCH --time=2
-#SBATCH --nodelist=xcnf7
+#SBATCH --time=10
+#SBATCH --nodelist=xcnf8
+#SBATCH --ntasks=1 --cpus-per-task=20
 
-srun ./iperf -s -p 15000
+srun ./server
