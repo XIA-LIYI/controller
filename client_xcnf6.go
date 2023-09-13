@@ -14,7 +14,7 @@ var totalByte uint64 = 0
 
 func main() {
 	var tcpAddr *net.TCPAddr
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.48.136:50120")
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:50120")
 
 	conn, _ := net.DialTCP("tcp", nil, tcpAddr)
 	defer conn.Close()

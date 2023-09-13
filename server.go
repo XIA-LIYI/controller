@@ -14,7 +14,7 @@ var count = 0
 func main() {
 	var tcpAddr *net.TCPAddr
 	connectionMap = make(map[string]*net.TCPConn)
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.48.136:50120")
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.48.112:50120")
 
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 
@@ -42,18 +42,17 @@ func main() {
 			break
 		}
 	}
-	go start()
-	// fmt.Println("Start? Type yes/no")
-	// for {
-	// 	var msg string
-	// 	fmt.Scanln(&msg)
-	// 	if msg == "yes" {
-	// 		go start()
-	// 	}
-	// 	if msg == "no" {
-	// 		go stop()
-	// 	}
-	// }
+	fmt.Println("Start? Type yes/no")
+	for {
+		var msg string
+		fmt.Scanln(&msg)
+		if msg == "yes" {
+			go start()
+		}
+		if msg == "no" {
+			go stop()
+		}
+	}
 	// for {
 	// 	var msg string
 	// 	fmt.Scanln(&msg)
