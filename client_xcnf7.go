@@ -26,6 +26,9 @@ func main() {
 	for {
 		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
+		if (num == 0) {
+			continue
+		}
 		fmt.Println(num)
 		fmt.Println(string(buf)[:num])
 		content := string(buf)[:num]
