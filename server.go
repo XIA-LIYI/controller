@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"strconv"
+	"strings"
 )
 
 var connectionMap map[string]*net.TCPConn
@@ -32,7 +33,7 @@ func main() {
 		// go tcpPipe(tcpConn)
 		for _, conn := range connectionMap {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
-			ipAddr = tcpConn.RemoteAddr().String().split(":")[0]
+			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
 			fmt.Println(ipAddr)
 			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(8000)))
 		}
