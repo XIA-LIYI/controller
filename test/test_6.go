@@ -12,4 +12,11 @@ func main() {
 	if (err != nil) {
 		fmt.Println(err)
 	}
+
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.48.133:50120")
+
+	_, err = net.DialTCP("tcp", nil, tcpAddr)
+	if (err != nil) {
+		fmt.Println(err)
+	}
 }
