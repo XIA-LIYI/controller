@@ -49,8 +49,10 @@ func main() {
 			break
 		}
 		tcpAddr, _ := net.ResolveTCPAddr("tcp", content)
-		newConn, _ := net.DialTCP("tcp", nil, tcpAddr)
-	
+		newConn, err := net.DialTCP("tcp", nil, tcpAddr)
+		if (err != nil) {
+			fmt.Println(err)
+		}
 		go onReceive(newConn)
 		go onSend(newConn, chans[count])
 		atomic.AddInt32(&count, 1)
@@ -75,7 +77,7 @@ func main() {
 
 func listen() {
 	fmt.Println("Listening")
-	tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.48.133:10000")
+	tcpAddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:10000")
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 	defer tcpListener.Close()
 	for {
