@@ -28,7 +28,10 @@ func main() {
 	// defer conn.Close()
 	// fmt.Println("connected!")
 
-	go listen()
+	go listen() 
+	for {
+
+	}
 
 	startTime := time.Now()
 	// for {
