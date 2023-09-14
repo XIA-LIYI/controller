@@ -14,7 +14,7 @@ var count = 0
 func main() {
 	var tcpAddr *net.TCPAddr
 	connectionMap = make(map[string]*net.TCPConn)
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.48.112:9000")
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:9000")
 
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 
