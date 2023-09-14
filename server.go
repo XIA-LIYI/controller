@@ -16,7 +16,10 @@ func main() {
 	connectionMap = make(map[string]*net.TCPConn)
 	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
 
-	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
+	tcpListener, err := net.ListenTCP("tcp", tcpAddr)
+	if (err != nil) {
+		fmt.Println(err)
+	}
 
 	defer tcpListener.Close()
 
