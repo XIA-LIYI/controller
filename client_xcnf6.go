@@ -48,7 +48,24 @@ func main() {
 		if (content == "stop") {
 			break
 		}
-		go create(content)
+		for {
+			fmt.Println("1!")
+			addr, _ := net.ResolveTCPAddr("tcp", "192.168.48.132:10000")
+			fmt.Println("4!")
+			_, err := net.DialTCP("tcp", nil, addr)
+			fmt.Println("2!")
+			if (err != nil) {
+				fmt.Println(err)
+				continue
+			} else {
+				fmt.Println("connected!")
+			}
+			fmt.Println("3!")
+			// go onReceive(newConn)
+			// go onSend(newConn, chans[count])
+			atomic.AddInt32(&count, 1)
+			break
+		}
 	}
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
