@@ -33,7 +33,7 @@ func main() {
 		// go tcpPipe(tcpConn)
 		for _, conn := range connectionMap {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
-			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ",")
+			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ".")
 			// fmt.Println(ipAddr)
 			conn.Write([]byte(ipAddr[0] + "." + ipAddr[1] + "." + "56" + ipAddr[3] + ":" + strconv.Itoa(10000)))
 		}
