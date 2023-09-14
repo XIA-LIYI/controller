@@ -55,15 +55,15 @@ func main() {
 			addr, _ := net.ResolveTCPAddr("tcp", "192.168.56.135:10000")
 			laddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:36666")
 			fmt.Println("4!")
-			newConn, err := net.DialTCP("tcp", laddr, addr)
+			_, err := net.DialTCP("tcp", laddr, addr)
 			fmt.Println("2!")
 			if (err != nil) {
 				fmt.Println(err)
 				continue
 			}
 			fmt.Println("3!")
-			go onReceive(newConn)
-			go onSend(newConn, chans[count])
+			// go onReceive(newConn)
+			// go onSend(newConn, chans[count])
 			atomic.AddInt32(&count, 1)
 			break
 		}
