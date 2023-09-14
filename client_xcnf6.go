@@ -56,6 +56,7 @@ func main() {
 				fmt.Println(err)
 				continue
 			}
+			fmt.Println("Connected!")
 			go onReceive(newConn)
 			go onSend(newConn, chans[count])
 			atomic.AddInt32(&count, 1)
