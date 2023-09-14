@@ -8,9 +8,12 @@ import (
 
 )
 
-var status int32 = 0
 var count int32 = 0
 var totalByte uint64 = 0
+var chans = []chan int {
+	make(chan int),
+	make(chan int),
+}
 
 func main() {
 	var tcpAddr *net.TCPAddr
@@ -31,24 +34,26 @@ func main() {
 		content := string(buf)[:num]
 		if (content == "start") {
 			startTime = time.Now()
-			atomic.StoreInt32(&status, 1)
-			fmt.Println(count)
+			fmt.Println("Current number of connections is:", count)
+			for i := range chans {
+				chans[i] <- 0;
+			}
 			continue
 		}
 		if (content == "stop") {
-			atomic.StoreInt32(&status, 0)
 			break
 		}
 		tcpAddr, _ := net.ResolveTCPAddr("tcp", content)
 		newConn, _ := net.DialTCP("tcp", nil, tcpAddr)
-		atomic.AddInt32(&count, 1)
+	
 		go onReceive(newConn)
-		go onSend(newConn)
+		go onSend(newConn, chans[count])
+		atomic.AddInt32(&count, 1)
 
 	}
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
-	speed := totalByte / 1000 / elapsedTime / 8
+	speed := totalByte / 1000 / elapsedTime * 8
 	fmt.Println("Time consumed:", speed, "Kbps")
 
 	// 控制台聊天功能加入
@@ -75,7 +80,7 @@ func listen() {
 		}
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		go onReceive(tcpConn)
-		go onSend(tcpConn)
+		go onSend(tcpConn, chans[count])
 		atomic.AddInt32(&count, 1)
 	}
 }
@@ -95,10 +100,7 @@ func onMessageRecived(conn *net.TCPConn) {
 }
 
 func onReceive(conn *net.TCPConn) {
-	for atomic.LoadInt32(&status) == 0 {
-
-	}
-	for atomic.LoadInt32(&status) == 1 {
+	for {
 		buf := make([]byte, 12500000)
 		num, _ := conn.Read(buf)
 		atomic.AddUint64(&totalByte, uint64(num))
@@ -107,14 +109,12 @@ func onReceive(conn *net.TCPConn) {
 
 }
 
-func onSend(conn *net.TCPConn) {
-	for atomic.LoadInt32(&status) == 0 {
-
-	}
+func onSend(conn *net.TCPConn, ch chan int) {
+	<- ch
 	ticker := time.NewTicker(time.Second / 10)
 	defer ticker.Stop()
 	content := make([]byte, 12500000)
-	for atomic.LoadInt32(&status) == 1 {
+	for {
 		// fmt.Println("start sending")
 		for {
 			<- ticker.C
