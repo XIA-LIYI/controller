@@ -51,10 +51,10 @@ func main() {
 		var msg string
 		fmt.Scanln(&msg)
 		if msg == "yes" {
-			go start()
+			start()
 		}
 		if msg == "no" {
-			go stop()
+			stop()
 		}
 	}
 	// for {
