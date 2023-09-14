@@ -40,9 +40,9 @@ func main() {
 		if (content == "start") {
 			startTime = time.Now()
 			fmt.Println("Current number of connections is:", count)
-			for i := range chans {
-				chans[i] <- 0
-			}
+			// for i := range chans {
+			// 	chans[i] <- 0
+			// }
 			fmt.Println("All released")
 			continue
 		}
