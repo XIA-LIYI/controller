@@ -35,8 +35,8 @@ func main() {
 		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
 		fmt.Println(num)
-		fmt.Println(string(buf)[:num])
 		content := string(buf)[:num]
+		fmt.Println(content)
 		if (content == "start") {
 			startTime = time.Now()
 			fmt.Println("Current number of connections is:", count)
@@ -51,13 +51,14 @@ func main() {
 		addr, _ := net.ResolveTCPAddr("tcp", "192.168.56.135:10000")
 		
 		for {
+			fmt.Println("1!")
 			newConn, err := net.DialTCP("tcp", nil, addr)
-			fmt.Println("Connected!")
+			fmt.Println("2!")
 			if (err != nil) {
 				fmt.Println(err)
 				continue
 			}
-			fmt.Println("Connected!")
+			fmt.Println("3!")
 			go onReceive(newConn)
 			go onSend(newConn, chans[count])
 			atomic.AddInt32(&count, 1)
