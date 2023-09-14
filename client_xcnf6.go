@@ -16,45 +16,40 @@ var chans = []chan int {
 }
 
 func main() {
-	// var tcpAddr *net.TCPAddr
-	// tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
-	// if (err != nil) {
-	// 	fmt.Println(err)
-	// }
-	// conn, err := net.DialTCP("tcp", nil, tcpAddr)
-	// if (err != nil) {
-	// 	fmt.Println(err)
-	// }
-	// defer conn.Close()
-	// fmt.Println("connected!")
-
-	go listen() 
-	go create()
-	for {
-
+	var tcpAddr *net.TCPAddr
+	tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
+	if (err != nil) {
+		fmt.Println(err)
 	}
+	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	if (err != nil) {
+		fmt.Println(err)
+	}
+	defer conn.Close()
+	fmt.Println("connected!")
+
+	go listen()
 
 	startTime := time.Now()
-	// for {
-	// 	buf := make([]byte, 100)
-	// 	num, _ := conn.Read(buf)
-	// 	fmt.Println(num)
-	// 	content := string(buf)[:num]
-	// 	fmt.Println(content)
-	// 	if (content == "start") {
-	// 		startTime = time.Now()
-	// 		fmt.Println("Current number of connections is:", count)
-	// 		// for i := range chans {
-	// 		// 	chans[i] <- 0;
-	// 		// }
-	// 		continue
-	// 	}
-	// 	if (content == "stop") {
-	// 		break
-	// 	}
-	// 	go create(content)
-	// }
-	
+	for {
+		buf := make([]byte, 100)
+		num, _ := conn.Read(buf)
+		fmt.Println(num)
+		content := string(buf)[:num]
+		fmt.Println(content)
+		if (content == "start") {
+			startTime = time.Now()
+			fmt.Println("Current number of connections is:", count)
+			// for i := range chans {
+			// 	chans[i] <- 0;
+			// }
+			continue
+		}
+		if (content == "stop") {
+			break
+		}
+		go create(content)
+	}
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
 	speed := totalByte / 1000 / elapsedTime * 8
@@ -71,23 +66,23 @@ func main() {
 	// 	conn.Write(b)
 	// }
 }
-func create() {
-	// for {
+func create(ip string) {
+	for {
 		fmt.Println("1!")
-		addr, _ := net.ResolveTCPAddr("tcp", "192.168.48.132:50120")
+		addr, _ := net.ResolveTCPAddr("tcp", "192.168.48.132:10000")
 		fmt.Println("4!")
 		_, err := net.DialTCP("tcp", nil, addr)
 		fmt.Println("2!")
 		if (err != nil) {
 			fmt.Println(err)
-			// continue
+			continue
 		}
 		fmt.Println("3!")
 		// go onReceive(newConn)
 		// go onSend(newConn, chans[count])
 		atomic.AddInt32(&count, 1)
-	// 	break
-	// }
+		break
+	}
 }
 func listen() {
 	fmt.Println("Listening")
