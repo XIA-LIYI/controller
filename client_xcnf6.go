@@ -48,7 +48,7 @@ func main() {
 		if (content == "stop") {
 			break
 		}
-		tcpAddr, _ := net.ResolveTCPAddr("tcp", content)
+		tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.56.135:10000")
 		
 		for {
 			newConn, err := net.DialTCP("tcp", nil, tcpAddr)
