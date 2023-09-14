@@ -16,40 +16,41 @@ var chans = []chan int {
 }
 
 func main() {
-	var tcpAddr *net.TCPAddr
-	tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
-	if (err != nil) {
-		fmt.Println(err)
-	}
-	conn, err := net.DialTCP("tcp", nil, tcpAddr)
-	if (err != nil) {
-		fmt.Println(err)
-	}
-	defer conn.Close()
-	fmt.Println("connected!")
+	// var tcpAddr *net.TCPAddr
+	// tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
+	// if (err != nil) {
+	// 	fmt.Println(err)
+	// }
+	// conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	// if (err != nil) {
+	// 	fmt.Println(err)
+	// }
+	// defer conn.Close()
+	// fmt.Println("connected!")
 
 	go listen()
 
 	startTime := time.Now()
-	for {
-		buf := make([]byte, 100)
-		num, _ := conn.Read(buf)
-		fmt.Println(num)
-		content := string(buf)[:num]
-		fmt.Println(content)
-		if (content == "start") {
-			startTime = time.Now()
-			fmt.Println("Current number of connections is:", count)
-			// for i := range chans {
-			// 	chans[i] <- 0;
-			// }
-			continue
-		}
-		if (content == "stop") {
-			break
-		}
-		go create(content)
-	}
+	// for {
+	// 	buf := make([]byte, 100)
+	// 	num, _ := conn.Read(buf)
+	// 	fmt.Println(num)
+	// 	content := string(buf)[:num]
+	// 	fmt.Println(content)
+	// 	if (content == "start") {
+	// 		startTime = time.Now()
+	// 		fmt.Println("Current number of connections is:", count)
+	// 		// for i := range chans {
+	// 		// 	chans[i] <- 0;
+	// 		// }
+	// 		continue
+	// 	}
+	// 	if (content == "stop") {
+	// 		break
+	// 	}
+	// 	go create(content)
+	// }
+	go create()
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
 	speed := totalByte / 1000 / elapsedTime * 8
@@ -66,7 +67,7 @@ func main() {
 	// 	conn.Write(b)
 	// }
 }
-func create(ip string) {
+func create() {
 	// for {
 		fmt.Println("1!")
 		addr, _ := net.ResolveTCPAddr("tcp", "192.168.56.135:10000")

@@ -16,54 +16,54 @@ var chans = []chan int {
 }
 
 func main() {
-	var tcpAddr *net.TCPAddr
-	tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
-	if (err != nil) {
-		fmt.Println(err)
-	}
-	conn, err := net.DialTCP("tcp", nil, tcpAddr)
-	if (err != nil) {
-		fmt.Println(err)
-	}
-	defer conn.Close()
-	fmt.Println("connected!")
+	// var tcpAddr *net.TCPAddr
+	// tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
+	// if (err != nil) {
+	// 	fmt.Println(err)
+	// }
+	// conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	// if (err != nil) {
+	// 	fmt.Println(err)
+	// }
+	// defer conn.Close()
+	// fmt.Println("connected!")
 
 	go listen()
 
 	startTime := time.Now()
-	for {
-		buf := make([]byte, 100)
-		num, _ := conn.Read(buf)
-		fmt.Println(num)
-		fmt.Println(string(buf)[:num])
-		content := string(buf)[:num]
-		if (content == "start") {
-			startTime = time.Now()
-			fmt.Println("Current number of connections is:", count)
-			// for i := range chans {
-			// 	chans[i] <- 0
-			// }
-			fmt.Println("All released")
-			continue
-		}
-		if (content == "stop") {
-			break
-		}
-		tcpAddr, _ := net.ResolveTCPAddr("tcp", content)
-		for {
-			newConn, err := net.DialTCP("tcp", nil, tcpAddr)
-			if (err != nil) {
-				fmt.Println(err)
-				continue
-			}
-			fmt.Println("Connected!")
-			go onReceive(newConn)
-			go onSend(newConn, chans[count])
-			atomic.AddInt32(&count, 1)
-			break
-		}
+	// for {
+	// 	buf := make([]byte, 100)
+	// 	num, _ := conn.Read(buf)
+	// 	fmt.Println(num)
+	// 	fmt.Println(string(buf)[:num])
+	// 	content := string(buf)[:num]
+	// 	if (content == "start") {
+	// 		startTime = time.Now()
+	// 		fmt.Println("Current number of connections is:", count)
+	// 		// for i := range chans {
+	// 		// 	chans[i] <- 0
+	// 		// }
+	// 		fmt.Println("All released")
+	// 		continue
+	// 	}
+	// 	if (content == "stop") {
+	// 		break
+	// 	}
+	// 	tcpAddr, _ := net.ResolveTCPAddr("tcp", content)
+	// 	for {
+	// 		newConn, err := net.DialTCP("tcp", nil, tcpAddr)
+	// 		if (err != nil) {
+	// 			fmt.Println(err)
+	// 			continue
+	// 		}
+	// 		fmt.Println("Connected!")
+	// 		go onReceive(newConn)
+	// 		go onSend(newConn, chans[count])
+	// 		atomic.AddInt32(&count, 1)
+	// 		break
+	// 	}
 
-	}
+	// }
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
 	speed := totalByte / 1000 / elapsedTime * 8
