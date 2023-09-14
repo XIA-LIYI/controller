@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"net"
-	// "strconv"
-	// "strings"
+	"strconv"
+	"strings"
 )
 
 var connectionMap map[string]*net.TCPConn
@@ -33,10 +33,10 @@ func main() {
 		// go tcpPipe(tcpConn)
 		for _, conn := range connectionMap {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
-			// ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ",")[0]
-			// fmt.Println(ipAddr)
-			// conn.Write([]byte(ipAddr + ":" + strconv.Itoa(10000)))
-			conn.Write([]byte("192.168.56.135:10000"))
+			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ",")[0]
+			fmt.Println(ipAddr)
+			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(10000)))
+			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
 		if (count == 2) {
