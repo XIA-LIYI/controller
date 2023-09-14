@@ -48,25 +48,7 @@ func main() {
 		if (content == "stop") {
 			break
 		}
-		
-		
-		for {
-			fmt.Println("1!")
-			addr, _ := net.ResolveTCPAddr("tcp", "192.168.56.135:10000")
-			laddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:36666")
-			fmt.Println("4!")
-			_, err := net.DialTCP("tcp", laddr, addr)
-			fmt.Println("2!")
-			if (err != nil) {
-				fmt.Println(err)
-				continue
-			}
-			fmt.Println("3!")
-			// go onReceive(newConn)
-			// go onSend(newConn, chans[count])
-			atomic.AddInt32(&count, 1)
-			break
-		}
+		go create(content)
 	}
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
@@ -84,7 +66,25 @@ func main() {
 	// 	conn.Write(b)
 	// }
 }
-
+func create(ip string) {
+	for {
+		fmt.Println("1!")
+		addr, _ := net.ResolveTCPAddr("tcp", "192.168.56.135:10000")
+		laddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:36666")
+		fmt.Println("4!")
+		_, err := net.DialTCP("tcp", laddr, addr)
+		fmt.Println("2!")
+		if (err != nil) {
+			fmt.Println(err)
+			continue
+		}
+		fmt.Println("3!")
+		// go onReceive(newConn)
+		// go onSend(newConn, chans[count])
+		atomic.AddInt32(&count, 1)
+		break
+	}
+}
 func listen() {
 	fmt.Println("Listening")
 	tcpAddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:10000")
