@@ -76,6 +76,8 @@ func create(ip string) {
 		if (err != nil) {
 			fmt.Println(err)
 			continue
+		} else {
+			fmt.Println("connected!")
 		}
 		fmt.Println("3!")
 		// go onReceive(newConn)
