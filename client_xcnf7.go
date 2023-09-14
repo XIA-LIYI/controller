@@ -30,7 +30,7 @@ func main() {
 
 	go listen()
 	for {
-		
+
 	}
 
 	startTime := time.Now()
@@ -86,7 +86,7 @@ func main() {
 
 func listen() {
 	fmt.Println("Listening")
-	tcpAddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:10000")
+	tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.48.132:50120")
 	tcpListener, err := net.ListenTCP("tcp", tcpAddr)
 	if (err != nil) {
 		fmt.Println(err)
