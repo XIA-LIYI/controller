@@ -49,14 +49,18 @@ func main() {
 			break
 		}
 		tcpAddr, _ := net.ResolveTCPAddr("tcp", content)
-		newConn, err := net.DialTCP("tcp", nil, tcpAddr)
-		if (err != nil) {
-			fmt.Println(err)
+		
+		for {
+			newConn, err := net.DialTCP("tcp", nil, tcpAddr)
+			if (err != nil) {
+				fmt.Println(err)
+				continue
+			}
+			go onReceive(newConn)
+			go onSend(newConn, chans[count])
+			atomic.AddInt32(&count, 1)
+			break
 		}
-		go onReceive(newConn)
-		go onSend(newConn, chans[count])
-		atomic.AddInt32(&count, 1)
-
 	}
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
