@@ -29,6 +29,7 @@ func main() {
 	// fmt.Println("connected!")
 
 	go listen() 
+	go create()
 	for {
 
 	}
@@ -53,7 +54,7 @@ func main() {
 	// 	}
 	// 	go create(content)
 	// }
-	go create()
+	
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
 	speed := totalByte / 1000 / elapsedTime * 8
