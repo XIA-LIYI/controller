@@ -82,7 +82,7 @@ func main() {
 
 func listen() {
 	fmt.Println("Listening")
-	tcpAddr, _ := net.ResolveTCPAddr("tcp", "192.168.56.135:10000")
+	tcpAddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:10000")
 	tcpListener, err := net.ListenTCP("tcp", tcpAddr)
 	if (err != nil) {
 		fmt.Println(err)
