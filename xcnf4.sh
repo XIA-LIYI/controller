@@ -3,4 +3,4 @@
 #SBATCH --nodelist=xcnf4
 #SBATCH --ntasks=1 --cpus-per-task=20
 
-srun ./client_xcnf4
+srun ./client
