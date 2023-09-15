@@ -42,6 +42,7 @@ func main() {
 			fmt.Println("Current number of connections is:", count)
 			for i := range chans {
 				chans[i] <- 0
+				chans[i] <- 0
 			}
 			fmt.Println("All are released!")
 			continue
