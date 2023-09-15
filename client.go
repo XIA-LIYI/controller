@@ -90,7 +90,7 @@ func listen() {
 		}
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		go onReceive(tcpConn)
-	    // go onSend(tcpConn, chans[count])
+	    go onSend(tcpConn, chans[count])
 		atomic.AddInt32(&count, 1)
 	}
 }
