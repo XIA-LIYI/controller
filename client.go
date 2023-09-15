@@ -17,9 +17,14 @@ var chans = []chan int {
 
 func main() {
 	var tcpAddr *net.TCPAddr
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", "127.0.0.1:8000")
-
-	conn, _ := net.DialTCP("tcp", nil, tcpAddr)
+	tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
+	if (err != nil) {
+		fmt.Println(err)
+	}
+	conn, err := net.DialTCP("tcp", nil, tcpAddr)
+	if (err != nil) {
+		fmt.Println(err)
+	}
 	defer conn.Close()
 	fmt.Println("connected!")
 
@@ -30,26 +35,33 @@ func main() {
 		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
 		fmt.Println(num)
-		fmt.Println(string(buf)[:num])
 		content := string(buf)[:num]
+		fmt.Println(content)
 		if (content == "start") {
 			startTime = time.Now()
 			fmt.Println("Current number of connections is:", count)
 			for i := range chans {
-				chans[i] <- 0;
+				chans[i] <- 0
 			}
 			continue
 		}
 		if (content == "stop") {
 			break
 		}
-		tcpAddr, _ := net.ResolveTCPAddr("tcp", content)
-		newConn, _ := net.DialTCP("tcp", nil, tcpAddr)
-	
-		go onReceive(newConn)
-		go onSend(newConn, chans[count])
-		atomic.AddInt32(&count, 1)
-
+		for {
+			addr, _ := net.ResolveTCPAddr("tcp", content)
+			newConn, err := net.DialTCP("tcp", nil, addr)
+			if (err != nil) {
+				fmt.Println(err)
+				continue
+			} else {
+				fmt.Println("connected!")
+			}
+			go onReceive(newConn)
+			go onSend(newConn, chans[count])
+			atomic.AddInt32(&count, 1)
+			break
+		}
 	}
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
@@ -70,7 +82,7 @@ func main() {
 
 func listen() {
 	fmt.Println("Listening")
-	tcpAddr, _ := net.ResolveTCPAddr("tcp", "127.0.0.1:8002")
+	tcpAddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:10000")
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 	defer tcpListener.Close()
 	for {
