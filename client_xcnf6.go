@@ -50,7 +50,7 @@ func main() {
 		}
 		for {
 			fmt.Println("1!")
-			addr, _ := net.ResolveTCPAddr("tcp", "192.168.48.132:10000")
+			addr, _ := net.ResolveTCPAddr("tcp", "192.168.48.135:10000")
 			fmt.Println("4!")
 			_, err := net.DialTCP("tcp", nil, addr)
 			fmt.Println("2!")
