@@ -3,4 +3,4 @@
 #SBATCH --nodelist=xcne1
 screen -d -m ./iperf -s -p 5050
 sleep 5
-./iperf -c 192.168.51.83 -p 5050 -i 2
+./iperf -c 192.168.51.83 -p 5050 -i 2 -t 20
