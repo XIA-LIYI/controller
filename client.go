@@ -12,7 +12,7 @@ var count int32 = 0
 var totalByte uint64 = 0
 var chans = []chan int {
 	make(chan int),
-	make(chan int),
+	// make(chan int),
 }
 
 func main() {
@@ -51,15 +51,15 @@ func main() {
 		}
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
-			_, err := net.DialTCP("tcp", nil, addr)
+			newConn, err := net.DialTCP("tcp", nil, addr)
 			if (err != nil) {
 				fmt.Println(err)
 				continue
 			} else {
 				fmt.Println("connected!")
 			}
-			// go onReceive(newConn)
-			// go onSend(newConn, chans[count])
+			go onReceive(newConn)
+			go onSend(newConn, chans[count])
 			atomic.AddInt32(&count, 1)
 			break
 		}
@@ -92,8 +92,8 @@ func listen() {
 			continue
 		}
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
-		// go onReceive(tcpConn)
-		// go onSend(tcpConn, chans[count])
+		go onReceive(tcpConn)
+		go onSend(tcpConn, chans[count])
 		atomic.AddInt32(&count, 1)
 	}
 }
