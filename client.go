@@ -35,15 +35,15 @@ func main() {
 		fmt.Println("waiting")
 		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
-		fmt.Println(num)
 		content := string(buf)[:num]
-		fmt.Println(content)
+		fmt.Println(num, content)
 		if (content == "start") {
 			startTime = time.Now()
 			fmt.Println("Current number of connections is:", count)
 			for i := range chans {
 				chans[i] <- 0
 			}
+			fmt.Println("All are released!")
 			continue
 		}
 		if (content == "stop") {
@@ -51,15 +51,15 @@ func main() {
 		}
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
-			newConn, err := net.DialTCP("tcp", nil, addr)
+			_, err := net.DialTCP("tcp", nil, addr)
 			if (err != nil) {
 				fmt.Println(err)
 				continue
 			} else {
 				fmt.Println("connected!")
 			}
-			go onReceive(newConn)
-			go onSend(newConn, chans[count])
+			// go onReceive(newConn)
+			// go onSend(newConn, chans[count])
 			atomic.AddInt32(&count, 1)
 			break
 		}
@@ -92,8 +92,8 @@ func listen() {
 			continue
 		}
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
-		go onReceive(tcpConn)
-		go onSend(tcpConn, chans[count])
+		// go onReceive(tcpConn)
+		// go onSend(tcpConn, chans[count])
 		atomic.AddInt32(&count, 1)
 	}
 }
