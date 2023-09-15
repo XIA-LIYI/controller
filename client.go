@@ -116,7 +116,7 @@ func onReceive(conn *net.TCPConn) {
 		buf := make([]byte, 12500000)
 		num, _ := conn.Read(buf)
 		atomic.AddUint64(&totalByte, uint64(num))
-		fmt.Println(num)
+		// fmt.Println(num)
 	}
 
 }
