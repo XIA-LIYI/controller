@@ -11,7 +11,7 @@ import (
 var count int32 = 0
 var totalByte uint64 = 0
 var chans = []chan int {
-	make(chan int),
+	make(chan int, 2),
 	// make(chan int),
 	// make(chan int),
 	// make(chan int),
@@ -51,15 +51,18 @@ func main() {
 		}
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
-			newConn, err := net.DialTCP("tcp", nil, addr)
+			newConn1, err := net.DialTCP("tcp", nil, addr)
+			newConn2, err := net.DialTCP("tcp", nil, addr)
 			if (err != nil) {
 				fmt.Println(err)
 				continue
 			} else {
 				fmt.Println("connected!")
 			}
-			go onReceive(newConn)
-			go onSend(newConn, chans[count])
+			go onReceive(newConn1)
+			go onReceive(newConn2)
+			go onSend(newConn1, chans[count])
+			go onSend(newConn2, chans[count])
 			atomic.AddInt32(&count, 1)
 			break
 		}
