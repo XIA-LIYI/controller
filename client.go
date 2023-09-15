@@ -8,7 +8,7 @@ import (
 
 )
 
-var count int32 = 0
+var count int32 = 1
 var totalByte uint64 = 0
 var chans = []chan int {
 	make(chan int, 2),
@@ -97,7 +97,7 @@ func listen() {
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		go onReceive(tcpConn)
 	    go onSend(tcpConn, chans[count])
-		atomic.AddInt32(&count, 1)
+		// atomic.AddInt32(&count, 1)
 	}
 }
 
