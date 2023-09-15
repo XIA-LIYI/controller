@@ -38,7 +38,7 @@ func main() {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
 			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
 			fmt.Println(ipAddr)
-			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(10000)))
+			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(5050)))
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn

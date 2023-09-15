@@ -11,7 +11,7 @@ import (
 var count int32 = 0
 var totalByte uint64 = 0
 var chans = []chan int {
-	make(chan int),
+	make(chan int, 3),
 	// make(chan int),
 }
 
@@ -80,7 +80,7 @@ func main() {
 
 func listen() {
 	fmt.Println("Listening")
-	tcpAddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:10000")
+	tcpAddr, _ := net.ResolveTCPAddr("tcp", "0.0.0.0:5050")
 	tcpListener, _ := net.ListenTCP("tcp", tcpAddr)
 	defer tcpListener.Close()
 	for {
@@ -90,7 +90,7 @@ func listen() {
 		}
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		go onReceive(tcpConn)
-		go onSend(tcpConn, chans[count])
+	    // go onSend(tcpConn, chans[count])
 		atomic.AddInt32(&count, 1)
 	}
 }
@@ -111,8 +111,8 @@ func onMessageRecived(conn *net.TCPConn) {
 
 func onReceive(conn *net.TCPConn) {
 	fmt.Println("start receiving")
+	buf := make([]byte, 12500000)
 	for {
-		buf := make([]byte, 12500000)
 		num, _ := conn.Read(buf)
 		atomic.AddUint64(&totalByte, uint64(num))
 	}
@@ -122,7 +122,7 @@ func onReceive(conn *net.TCPConn) {
 func onSend(conn *net.TCPConn, ch chan int) {
 	fmt.Println("start sending")
 	<- ch
-	ticker := time.NewTicker(time.Second / 100)
+	ticker := time.NewTicker(time.Second / 100 / 2)
 	defer ticker.Stop()
 	content := make([]byte, 12500000)
 	for {
