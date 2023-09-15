@@ -49,7 +49,8 @@ func main() {
 		}
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
-			newConn, err := net.DialTCP("tcp", nil, addr)
+			lAddr, err := net.ResolveTCPAddr("tcp", "192.168.56.133:10001")
+			newConn, err := net.DialTCP("tcp", lAddr, addr)
 			if (err != nil) {
 				fmt.Println(err)
 				continue
