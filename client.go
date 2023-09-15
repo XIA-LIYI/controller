@@ -13,6 +13,9 @@ var totalByte uint64 = 0
 var chans = []chan int {
 	make(chan int),
 	make(chan int),
+	make(chan int),
+	make(chan int),
+	
 }
 
 func main() {
