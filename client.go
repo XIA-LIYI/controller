@@ -52,15 +52,7 @@ func main() {
 		}
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
-			newConn1, err := net.DialTCP("tcp", nil, addr)
-			time.Sleep(time.Second * 3)
-			if (err != nil) {
-				fmt.Println(err)
-				continue
-			} else {
-				fmt.Println("connected!")
-			}
-			newConn2, err := net.DialTCP("tcp", nil, addr)
+			newConn, err := net.DialTCP("tcp", nil, addr)
 			time.Sleep(time.Second)
 			if (err != nil) {
 				fmt.Println(err)
@@ -68,10 +60,9 @@ func main() {
 			} else {
 				fmt.Println("connected!")
 			}
-			go onReceive(newConn1)
-			go onReceive(newConn2)
-			go onSend(newConn1, chans[count])
-			go onSend(newConn2, chans[count])
+			go onReceive(newConn)
+			go onSend(newConn, chans[count])
+			go onSend(newConn, chans[count])
 			atomic.AddInt32(&count, 1)
 			break
 		}
