@@ -34,7 +34,7 @@ func main() {
 		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
 		content := string(buf)[:num]
-		fmt.Println(num, content)
+		
 		if (content == "start") {
 			startTime = time.Now()
 			fmt.Println("Current number of connections is:", count)
@@ -47,10 +47,11 @@ func main() {
 		if (content == "stop") {
 			break
 		}
+		fmt.Println(num, content)
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
-			lAddr, err := net.ResolveTCPAddr("tcp", "192.168.56.133:10002")
-			newConn, err := net.DialTCP("tcp", lAddr, addr)
+			// lAddr, err := net.ResolveTCPAddr("tcp", "192.168.56.133:10002")
+			newConn, err := net.DialTCP("tcp", nil, addr)
 			if (err != nil) {
 				fmt.Println(err)
 				continue
