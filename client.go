@@ -122,7 +122,7 @@ func onReceive(conn *net.TCPConn) {
 func onSend(conn *net.TCPConn, ch chan int) {
 	fmt.Println("start sending")
 	<- ch
-	ticker := time.NewTicker(time.Second / 10)
+	ticker := time.NewTicker(time.Second / 100)
 	defer ticker.Stop()
 	content := make([]byte, 12500000)
 	for {
