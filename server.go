@@ -42,7 +42,7 @@ func main() {
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
-		if (count == 5) {
+		if (count == 2) {
 			break
 		}
 	}
