@@ -18,7 +18,7 @@ var chans = []chan int {
 func main() {
 	var tcpAddr *net.TCPAddr
 	tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:10000")
-	localAddr, err := net.ResolveTCPAddr("tcp", "192.168.56.133:10000")
+	localAddr, err := net.ResolveTCPAddr("tcp", "192.168.56.133:10001")
 	conn, err := net.DialTCP("tcp", localAddr, tcpAddr)
 	if (err != nil) {
 		fmt.Println(err)
@@ -49,7 +49,7 @@ func main() {
 		}
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
-			lAddr, err := net.ResolveTCPAddr("tcp", "192.168.56.133:10001")
+			lAddr, err := net.ResolveTCPAddr("tcp", "192.168.56.133:10002")
 			newConn, err := net.DialTCP("tcp", lAddr, addr)
 			if (err != nil) {
 				fmt.Println(err)
