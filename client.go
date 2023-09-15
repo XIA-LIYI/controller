@@ -32,6 +32,7 @@ func main() {
 
 	startTime := time.Now()
 	for {
+		fmt.Println("waiting")
 		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
 		fmt.Println(num)
