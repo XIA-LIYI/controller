@@ -53,8 +53,9 @@ func main() {
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
 			newConn1, err := net.DialTCP("tcp", nil, addr)
-			time.Sleep(time.Second)
+			time.Sleep(time.Second * 3)
 			newConn2, err := net.DialTCP("tcp", nil, addr)
+			time.Sleep(time.Second)
 			if (err != nil) {
 				fmt.Println(err)
 				continue
