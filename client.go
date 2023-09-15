@@ -66,8 +66,8 @@ func main() {
 	}
 	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
 	fmt.Println("Time consumed:", elapsedTime, "s")
-	speed := totalByte / 1000 / elapsedTime * 8
-	fmt.Println("Time consumed:", speed, "Kbps")
+	speed := totalByte / 1000 / elapsedTime * 8 / 1000
+	fmt.Println("Speed is:", speed, "Mbps")
 
 	// 控制台聊天功能加入
 	// for {
@@ -118,7 +118,6 @@ func onReceive(conn *net.TCPConn) {
 		buf := make([]byte, 12500000)
 		num, _ := conn.Read(buf)
 		atomic.AddUint64(&totalByte, uint64(num))
-		
 	}
 
 }
