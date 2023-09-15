@@ -12,9 +12,9 @@ var count int32 = 0
 var totalByte uint64 = 0
 var chans = []chan int {
 	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
+	// make(chan int),
+	// make(chan int),
+	// make(chan int),
 	
 }
 
