@@ -112,7 +112,7 @@ func onMessageRecived(conn *net.TCPConn) {
 func onReceive(conn *net.TCPConn) {
 	fmt.Println("start receiving")
 	// conn.SetReadBuffer(10000000)
-	buf := make([]byte, 10000000)
+	buf := make([]byte, 100000000)
 	for {
 		num, _ := conn.Read(buf)
 		atomic.AddUint64(&totalByte, uint64(num))
@@ -126,7 +126,7 @@ func onSend(conn *net.TCPConn, ch chan int) {
 	// ticker := time.NewTicker(time.Second / 100)
 	// defer ticker.Stop()
 	// conn.SetWriteBuffer(1000000)
-	content := make([]byte, 10000000)
+	content := make([]byte, 100000000)
 
 	// fmt.Println("start sending")
 	for {
