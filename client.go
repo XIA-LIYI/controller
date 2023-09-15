@@ -111,7 +111,7 @@ func onMessageRecived(conn *net.TCPConn) {
 
 func onReceive(conn *net.TCPConn) {
 	fmt.Println("start receiving")
-	// conn.SetReadBuffer(1000000)
+	conn.SetReadBuffer(128000)
 	buf := make([]byte, 128000)
 	for {
 		num, _ := conn.Read(buf)
