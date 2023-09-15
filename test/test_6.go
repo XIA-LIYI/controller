@@ -6,14 +6,17 @@ import (
 
 func main() {
 	var tcpAddr *net.TCPAddr
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.56.132:50120")
+	for {
+		tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.83:50120")
+	}
+	
 
 	_, err := net.DialTCP("tcp", nil, tcpAddr)
 	if (err != nil) {
 		fmt.Println(err)
 	}
 
-	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.56.133:50120")
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.83:50120")
 
 	_, err = net.DialTCP("tcp", nil, tcpAddr)
 	if (err != nil) {
