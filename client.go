@@ -11,12 +11,11 @@ import (
 var count int32 = 0
 var totalByte uint64 = 0
 var chans = []chan int {
-	make(chan int, 2),
+	make(chan int),
 	// make(chan int),
-	// make(chan int),
-	// make(chan int),
-	
 }
+var numOfServers int32 = 2 
+var bytes [numOfServers]uint32
 
 func main() {
 	var tcpAddr *net.TCPAddr
@@ -60,8 +59,7 @@ func main() {
 			} else {
 				fmt.Println("connected!")
 			}
-			go onReceive(newConn)
-			go onSend(newConn, chans[count])
+			go onReceive(newConn, count)
 			go onSend(newConn, chans[count])
 			atomic.AddInt32(&count, 1)
 			break
@@ -95,7 +93,7 @@ func listen() {
 			continue
 		}
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
-		go onReceive(tcpConn)
+		go onReceive(tcpConn, count)
 	    go onSend(tcpConn, chans[count])
 		// atomic.AddInt32(&count, 1)
 	}
@@ -115,13 +113,14 @@ func onMessageRecived(conn *net.TCPConn) {
 	
 }
 
-func onReceive(conn *net.TCPConn) {
+func onReceive(conn *net.TCPConn, index int) {
 	fmt.Println("start receiving")
 	// conn.SetReadBuffer(128000)
 	buf := make([]byte, 256000)
 	for {
 		num, _ := conn.Read(buf)
 		atomic.AddUint64(&totalByte, uint64(num))
+		bytes[index] += num
 	}
 
 }
