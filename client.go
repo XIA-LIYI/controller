@@ -65,10 +65,8 @@ func main() {
 			break
 		}
 	}
-	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
-	fmt.Println("Time consumed:", elapsedTime, "s")
-	speed := totalByte / 1000 / elapsedTime * 8 / 1000
-	fmt.Println("Speed is:", speed, "Mbps")
+
+	printSpeed()
 
 	// 控制台聊天功能加入
 	// for {
@@ -80,6 +78,13 @@ func main() {
 	// 	b := []byte(msg + "\n")
 	// 	conn.Write(b)
 	// }
+}
+
+func printSpeed() {
+	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
+	fmt.Println("Time consumed:", elapsedTime, "s")
+	speed := totalByte / 1000 / elapsedTime * 8 / 1000
+	fmt.Println("Speed is:", speed, "Mbps")
 }
 
 func listen() {
