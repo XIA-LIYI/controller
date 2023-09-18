@@ -48,6 +48,7 @@ func main() {
 		fmt.Println(num, content)
 		if (content == "check") {
 			conn.Write([]byte(strconv.Itoa(int(count))))
+			continue
 		}
 		if (content == "start") {
 			startTime = time.Now()
