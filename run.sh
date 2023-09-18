@@ -7,5 +7,3 @@ sbatch xcne4.sh
 sbatch xcne5.sh
 sbatch xcne6.sh
 sbatch xcne7.sh
-sbatch xcne8.sh
-sbatch xcne9.sh
