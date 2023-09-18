@@ -116,7 +116,7 @@ func listen() {
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		go onReceive(tcpConn, count)
 	    go onSend(tcpConn, chans[count])
-		// atomic.AddInt32(&count, 1)
+		atomic.AddInt32(&count, 1)
 	}
 }
 
@@ -135,7 +135,7 @@ func onMessageRecived(conn *net.TCPConn) {
 }
 
 func onReceive(conn *net.TCPConn, index int32) {
-	fmt.Println("start receiving")
+	// fmt.Println("start receiving")
 	// conn.SetReadBuffer(128000)
 	buf := make([]byte, 156250)
 	for {
@@ -147,7 +147,7 @@ func onReceive(conn *net.TCPConn, index int32) {
 }
 
 func onSend(conn *net.TCPConn, ch chan int) {
-	fmt.Println("start sending")
+	// fmt.Println("start sending")
 	<- ch
 	ticker := time.NewTicker(time.Second / 1000)
 	defer ticker.Stop()
