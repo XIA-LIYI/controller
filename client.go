@@ -37,11 +37,19 @@ var sendingByte int = 1250000000 / 15
 
 func main() {
 	var tcpAddr *net.TCPAddr
-	tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:18787")
-	conn, err := net.DialTCP("tcp", nil, tcpAddr)
-	if (err != nil) {
-		fmt.Println(err)
+	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:18787")
+	var conn *net.TCPConn
+	var err error
+	for {
+		conn, err = net.DialTCP("tcp", nil, tcpAddr)
+		if (err != nil) {
+			fmt.Println(err)
+			continue
+		} else {
+			break
+		} 
 	}
+
 	defer conn.Close()
 	fmt.Println("connected!")
 
@@ -73,7 +81,6 @@ func main() {
 		for {
 			addr, _ := net.ResolveTCPAddr("tcp", content)
 			newConn, err := net.DialTCP("tcp", nil, addr)
-			time.Sleep(time.Second)
 			if (err != nil) {
 				fmt.Println(err)
 				continue
