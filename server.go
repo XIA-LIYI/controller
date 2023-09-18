@@ -18,6 +18,7 @@ var numOfNodesReady int32 = 0
 
 
 func main() {
+	go monitorAction()
 	var tcpAddr *net.TCPAddr
 	connectionMap = make(map[string]*net.TCPConn)
 	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:18787")
@@ -54,23 +55,7 @@ func main() {
 		}
 	}
 	
-	for {
-		fmt.Println("check for check, yes for start, no for stop")
-		var msg string
-		fmt.Scanln(&msg)
-		if msg == "check" {
-			for _, conn := range connectionMap {
-				go listen(conn)
-				conn.Write([]byte("check\n"))
-			}
-		}
-		if msg == "yes" {
-			start()
-		}
-		if msg == "no" {
-			stop()
-		}
-	}
+	fmt.Println("check for check, yes for start, no for stop")
 	// for {
 	// 	var msg string
 	// 	fmt.Scanln(&msg)
@@ -82,6 +67,24 @@ func main() {
 	// }
 
 }
+
+func monitorAction() {
+	var msg string
+	fmt.Scanln(&msg)
+	if msg == "check" {
+		for _, conn := range connectionMap {
+			go listen(conn)
+			conn.Write([]byte("check\n"))
+		}
+	}
+	if msg == "yes" {
+		start()
+	}
+	if msg == "no" {
+		stop()
+	}
+}
+
 func listen(conn *net.TCPConn) {
 	for {
 		buf := make([]byte, 100)
