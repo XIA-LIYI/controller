@@ -61,7 +61,7 @@ func main() {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
 			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
 			fmt.Println(ipAddr)
-			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(5050)))
+			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(5050) + "\n"))
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
@@ -78,7 +78,7 @@ func main() {
 		if msg == "check" {
 			for _, conn := range connectionMap {
 				go listen(conn)
-				conn.Write([]byte("check"))
+				conn.Write([]byte("check\n"))
 			}
 		}
 		if msg == "yes" {
@@ -112,7 +112,7 @@ func check() {
 	for ip, conn := range connectionMap {
 		fmt.Println("Checking ip:", ip)
 		for {
-			conn.Write([]byte("check"))
+			conn.Write([]byte("check\n"))
 			buf := make([]byte, 100)
 			num, _ := conn.Read(buf)
 			content := string(buf)[:num]
@@ -130,14 +130,14 @@ func check() {
 
 func start() {
 	for _, conn := range connectionMap {
-		conn.Write([]byte("start"))
+		conn.Write([]byte("start\n"))
 	}
 
 }
 
 func stop() {
 	for _, conn := range connectionMap {
-		conn.Write([]byte("stop"))
+		conn.Write([]byte("stop\n"))
 	}
 }
 
