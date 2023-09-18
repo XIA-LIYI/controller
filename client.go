@@ -6,6 +6,7 @@ import (
 	"sync/atomic"
 	"time"
 	"strconv"
+	"bufio"
 
 )
 
@@ -46,11 +47,12 @@ func main() {
 	go listen()
 
 	startTime := time.Now()
-	buf := make([]byte, 100)
+
+	reader := bufio.NewReader(conn)
 	for {
-		num, _ := conn.Read(buf)
-		content := string(buf)[:num]
-		fmt.Println(num, content)
+		data, _ := reader.ReadString('\n')
+		content := string(data)
+		fmt.Println(content)
 		if (content == "check") {
 			conn.Write([]byte(strconv.Itoa(int(count))))
 			continue
