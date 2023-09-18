@@ -19,14 +19,19 @@ var chans = []chan int {
 	make(chan int),
 	make(chan int),
 	make(chan int),
-	// make(chan int),
-	// make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
 	// make(chan int),
 }
 
-var bytes [7]uint64
+var bytes [15]uint64
 
-var sendingByte int = 1250000000 / 8
+var sendingByte int = 1250000000 / 15
 
 func main() {
 	var tcpAddr *net.TCPAddr
@@ -152,7 +157,7 @@ func onSend(conn *net.TCPConn, ch chan int) {
 	ticker := time.NewTicker(time.Second / 1000)
 	defer ticker.Stop()
 	// conn.SetWriteBuffer(1000000)
-	content := make([]byte, 156250)
+	content := make([]byte, sendingByte)
 
 	// fmt.Println("start sending")
 	for {

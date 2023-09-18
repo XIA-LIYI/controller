@@ -14,3 +14,17 @@ sleep 5
 sbatch xcne6.sh
 sleep 5
 sbatch xcne7.sh
+sleep 5
+sbatch xgph10.sh
+sleep 5
+sbatch xgph11.sh
+sleep 5
+sbatch xgph12.sh
+sleep 5
+sbatch xgph13.sh
+sleep 5
+sbatch xgph14.sh
+sleep 5
+sbatch xgph15.sh
+sleep 5
+sbatch xgph16.sh
