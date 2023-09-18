@@ -7,13 +7,14 @@ import (
 	"strconv"
 	"strings"
 	"sync/atomic"
-	"time"
+	// "time"
 )
 
 var connectionMap map[string]*net.TCPConn
 var count int = 0
 var allReady bool = false
 var numOfNodesReady int32 = 0
+
 
 func main() {
 	var tcpAddr *net.TCPAddr
@@ -33,7 +34,7 @@ func main() {
 		if err != nil {
 			continue
 		}
-		go listen(tcpConn)
+		// go listen(tcpConn)
 		count += 1
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		fmt.Println("Total number of connections:", count)
@@ -47,17 +48,16 @@ func main() {
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
-		for {
-			for _, conn := range connectionMap {
-				conn.Write([]byte("check"))
-			}
-			if (numOfNodesReady == int32(count - 1)) {
-				numOfNodesReady = 0
-				break
-			}
-			time.Sleep(time.Second)
-		}
-		if (numOfNodesReady == 15) {
+		// for {
+		// 	for _, conn := range connectionMap {
+		// 		conn.Write([]byte("check"))
+		// 	}
+		// 	for i := range {
+
+		// 	}
+		// 	time.Sleep(time.Second)
+		// }
+		if (count == 15) {
 			break
 		}
 	}
