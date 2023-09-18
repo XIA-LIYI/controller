@@ -122,7 +122,6 @@ func check(conn *net.TCPConn, index int) {
 		conn.Write([]byte("check"))
 		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
-		
 		content := string(buf)[:num]
 		fmt.Println(content)
 		if (content == strconv.Itoa(int(count - 1))) {
