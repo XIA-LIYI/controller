@@ -51,7 +51,7 @@ func main() {
 			for _, conn := range connectionMap {
 				conn.Write([]byte("check"))
 			}
-			if (numOfNodesReady == int32(count)) {
+			if (numOfNodesReady == int32(count - 1)) {
 				numOfNodesReady = 0
 				break
 			}
