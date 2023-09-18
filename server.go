@@ -15,23 +15,6 @@ var connectionMap map[string]*net.TCPConn
 var count int = 0
 var allReady bool = false
 var numOfNodesReady int32 = 0
-var chans = []chan int {
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	make(chan int),
-	// make(chan int),
-}
 
 
 func main() {

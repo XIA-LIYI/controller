@@ -27,13 +27,13 @@ var chans = []chan int {
 	make(chan int),
 	make(chan int),
 	make(chan int),
-	make(chan int),
+	// make(chan int),
 	// make(chan int),
 }
 
-var bytes [15]uint64
+var bytes [14]uint64
 
-var sendingByte int = 1250000000 / 15
+var sendingByte int = 1250000000 / 14
 
 func main() {
 	var tcpAddr *net.TCPAddr
