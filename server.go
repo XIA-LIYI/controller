@@ -6,12 +6,9 @@ import (
 	"net"
 	"strconv"
 	"strings"
-<<<<<<< HEAD
 	"time"
-=======
-	"sync/atomic"
+	// "sync/atomic"
 	// "time"
->>>>>>> 60add20f6981952ea2c23b8b3ba5559ef0f02bd2
 )
 
 var connectionMap map[string]*net.TCPConn
@@ -55,11 +52,6 @@ func main() {
 		if err != nil {
 			continue
 		}
-<<<<<<< HEAD
-
-=======
-		// go listen(tcpConn)
->>>>>>> 60add20f6981952ea2c23b8b3ba5559ef0f02bd2
 		count += 1
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		fmt.Println("Total number of connections:", count)
@@ -73,7 +65,6 @@ func main() {
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
-<<<<<<< HEAD
 		index := 0
 		for _, conn := range connectionMap {
 			check(conn, index)
@@ -82,17 +73,6 @@ func main() {
 		for i := 1; i < count; i++ {
 			<- chans[i]
 		}
-=======
-		// for {
-		// 	for _, conn := range connectionMap {
-		// 		conn.Write([]byte("check"))
-		// 	}
-		// 	for i := range {
-
-		// 	}
-		// 	time.Sleep(time.Second)
-		// }
->>>>>>> 60add20f6981952ea2c23b8b3ba5559ef0f02bd2
 		if (count == 15) {
 			break
 		}
