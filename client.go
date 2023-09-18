@@ -7,6 +7,7 @@ import (
 	"time"
 	"strconv"
 	"bufio"
+	"strings"
 
 )
 
@@ -51,7 +52,7 @@ func main() {
 	reader := bufio.NewReader(conn)
 	for {
 		data, _ := reader.ReadString('\n')
-		content := string(data)
+		content := strings.Replace(string(data), "\n", "", -1)  
 		fmt.Println(content)
 		if (content == "check") {
 			conn.Write([]byte(strconv.Itoa(int(count))))
