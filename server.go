@@ -70,9 +70,11 @@ func main() {
 			check(conn, index)
 			index += 1
 		}
+		fmt.Println("There")
 		for i := 0; i < count; i++ {
 			<- chans[i]
 		}
+		fmt.Println("Here")
 		if (count == 15) {
 			break
 		}
