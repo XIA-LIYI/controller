@@ -1,3 +1,4 @@
+#!/bin/bash
 sbatch xcne0.sh
 sbatch xcne1.sh
 sbatch xcne2.sh
