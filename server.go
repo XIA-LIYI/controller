@@ -54,7 +54,7 @@ func main() {
 		}
 	}
 	
-	fmt.Println("check for check, yes for start, stop for stop, no for close")
+	fmt.Println("check for check, start for start, stop for stop")
 	<- canClose
 	// for {
 	// 	var msg string
@@ -78,14 +78,11 @@ func monitorAction() {
 				conn.Write([]byte("check\n"))
 			}
 		}
-		if msg == "yes" {
+		if msg == "start" {
 			start()
 		}
 		if msg == "stop" {
 			getResult()
-		}
-		if msg == "no" {
-			break
 			canClose <- 1
 		}
 	}
@@ -105,6 +102,7 @@ func getResult() {
 			content := string(buf)[:num]
 			fmt.Printf(content)
 			fmt.Printf("\n")
+			break
 		}
 	}
 }
