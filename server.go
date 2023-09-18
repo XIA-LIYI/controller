@@ -70,7 +70,7 @@ func main() {
 			check(conn, index)
 			index += 1
 		}
-		for i := 1; i < count; i++ {
+		for i := 0; i < count; i++ {
 			<- chans[i]
 		}
 		if (count == 15) {
@@ -117,7 +117,7 @@ func listen(conn *net.TCPConn) {
 
 func check(conn *net.TCPConn, index int) {
 	for {
-		conn.Write([]byte("start"))
+		conn.Write([]byte("check"))
 		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
 		content := string(buf)[:num]
