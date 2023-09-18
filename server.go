@@ -6,10 +6,13 @@ import (
 	"net"
 	"strconv"
 	"strings"
+	"sync/atomic"
 )
 
 var connectionMap map[string]*net.TCPConn
-var count = 0
+var count int = 0
+var allReady bool = false
+var numOfNodesReady int32 = 0
 
 func main() {
 	var tcpAddr *net.TCPAddr
@@ -43,7 +46,17 @@ func main() {
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
-		if (count == 15) {
+		for {
+			for _, conn := range connectionMap {
+				conn.Write([]byte("check"))
+			}
+		}
+		for {
+			if (numOfNodesReady == int32(count)) {
+				break
+			}
+		}
+		if (numOfNodesReady == 15) {
 			break
 		}
 	}
@@ -93,7 +106,11 @@ func listen(conn *net.TCPConn) {
 	buf := make([]byte, 100)
 	for {
 		num, _ := conn.Read(buf)
-		fmt.Println(string(buf)[:num])
+		content := string(buf)[:num]
+		fmt.Println(content)
+		if (content == strconv.Itoa(count)) {
+			atomic.AddInt32(&numOfNodesReady, 1)
+		}
 	}
 }
 func tcpPipe(conn *net.TCPConn) {
