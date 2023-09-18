@@ -65,16 +65,7 @@ func main() {
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
-		index := 0
-		for _, conn := range connectionMap {
-			go check(conn, index)
-			index += 1
-		}
-		fmt.Println("There")
-		for i := 0; i < count; i++ {
-			<- chans[i]
-		}
-		fmt.Println("Here")
+		check()
 		if (count == 15) {
 			break
 		}
@@ -117,21 +108,23 @@ func listen(conn *net.TCPConn) {
 	}
 }
 
-func check(conn *net.TCPConn, index int) {
-	for {
-		conn.Write([]byte("check"))
-		buf := make([]byte, 100)
-		num, _ := conn.Read(buf)
-		content := string(buf)[:num]
-		fmt.Println(content)
-		if (content == strconv.Itoa(int(count - 1))) {
-			chans[index] <- 1
-			break
-		} else {
-			continue
+func check() {
+	for _, conn := range connectionMap {
+		for {
+			conn.Write([]byte("check"))
+			buf := make([]byte, 100)
+			num, _ := conn.Read(buf)
+			content := string(buf)[:num]
+			fmt.Println(content)
+			if (content == strconv.Itoa(int(count - 1))) {
+				break
+			} else {
+				continue
+			}
 		}
-		time.Sleep(time.Second)
+		time.Sleep(time.Second / 10)
 	}
+
 }
 
 func start() {
