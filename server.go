@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"sync/atomic"
+	"time"
 )
 
 var connectionMap map[string]*net.TCPConn
@@ -50,11 +51,14 @@ func main() {
 			for _, conn := range connectionMap {
 				conn.Write([]byte("check"))
 			}
-		}
-		for {
 			if (numOfNodesReady == int32(count)) {
+				numOfNodesReady = 0
 				break
 			}
+			time.Sleep(time.Second)
+		}
+		for {
+			
 		}
 		if (numOfNodesReady == 15) {
 			break
