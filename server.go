@@ -29,6 +29,7 @@ func main() {
 		if err != nil {
 			continue
 		}
+		go listen(tcpConn)
 		count += 1
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		fmt.Println("Total number of connections:", count)
@@ -46,10 +47,16 @@ func main() {
 			break
 		}
 	}
-	fmt.Println("Start? Type yes/no")
+	
 	for {
+		fmt.Println("check for check, yes for start, no for stop")
 		var msg string
 		fmt.Scanln(&msg)
+		if msg == "check" {
+			for _, conn := range connectionMap {
+				conn.Write([]byte("check"))
+			}
+		}
 		if msg == "yes" {
 			start()
 		}
@@ -82,6 +89,13 @@ func stop() {
 	}
 }
 
+func listen(conn *net.TCPConn) {
+	buf := make([]byte, 100)
+	for {
+		num, _ := conn.Read(buf)
+		fmt.Println(string(buf)[:num])
+	}
+}
 func tcpPipe(conn *net.TCPConn) {
 
 	defer conn.Close()

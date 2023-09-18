@@ -5,6 +5,7 @@ import (
 	"net"
 	"sync/atomic"
 	"time"
+	"strconv"
 
 )
 
@@ -25,6 +26,8 @@ var chans = []chan int {
 
 var bytes [7]uint64
 
+var sendingByte int = 1250000000 / 8
+
 func main() {
 	var tcpAddr *net.TCPAddr
 	tcpAddr, err := net.ResolveTCPAddr("tcp", "192.168.51.112:18787")
@@ -38,12 +41,14 @@ func main() {
 	go listen()
 
 	startTime := time.Now()
+	buf := make([]byte, 100)
 	for {
-		fmt.Println("waiting")
-		buf := make([]byte, 100)
 		num, _ := conn.Read(buf)
 		content := string(buf)[:num]
 		fmt.Println(num, content)
+		if (content == "check") {
+			conn.Write([]byte(strconv.Itoa(int(count))))
+		}
 		if (content == "start") {
 			startTime = time.Now()
 			fmt.Println("Current number of connections is:", count)
