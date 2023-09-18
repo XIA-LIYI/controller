@@ -15,7 +15,7 @@ var connectionMap map[string]*net.TCPConn
 var count int = 0
 var allReady bool = false
 var numOfNodesReady int32 = 0
-var canStop chan int = make(chan int)
+var canClose chan int = make(chan int)
 
 func main() {
 	go monitorAction()
@@ -54,8 +54,8 @@ func main() {
 		}
 	}
 	
-	fmt.Println("check for check, yes for start, no for stop")
-	<- canStop
+	fmt.Println("check for check, yes for start, stop for stop, no for close")
+	<- canClose
 	// for {
 	// 	var msg string
 	// 	fmt.Scanln(&msg)
@@ -81,12 +81,32 @@ func monitorAction() {
 		if msg == "yes" {
 			start()
 		}
+		if msg == "stop" {
+			getResult()
+		}
 		if msg == "no" {
-			stop()
 			break
+			canClose <- 1
 		}
 	}
 
+}
+
+func getResult() {
+	for ip, conn := range connectionMap {
+		fmt.Printf(ip + ": ")
+		for {
+			conn.Write([]byte("stop\n"))
+			buf := make([]byte, 100)
+			num, err := conn.Read(buf)
+			if (err != nil) {
+				continue
+			}
+			content := string(buf)[:num]
+			fmt.Printf(content)
+			fmt.Printf("\n")
+		}
+	}
 }
 
 func listen(conn *net.TCPConn) {
@@ -123,13 +143,6 @@ func start() {
 		conn.Write([]byte("start\n"))
 	}
 
-}
-
-func stop() {
-	for _, conn := range connectionMap {
-		conn.Write([]byte("stop\n"))
-	}
-	canStop <- 1
 }
 
 func tcpPipe(conn *net.TCPConn) {
