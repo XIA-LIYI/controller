@@ -67,7 +67,7 @@ func main() {
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
 		index := 0
 		for _, conn := range connectionMap {
-			check(conn, index)
+			go check(conn, index)
 			index += 1
 		}
 		fmt.Println("There")
@@ -127,6 +127,7 @@ func check(conn *net.TCPConn, index int) {
 		fmt.Println(content)
 		if (content == strconv.Itoa(int(count - 1))) {
 			chans[index] <- 1
+			break
 		} else {
 			continue
 		}
