@@ -57,9 +57,6 @@ func main() {
 			}
 			time.Sleep(time.Second)
 		}
-		for {
-			
-		}
 		if (numOfNodesReady == 15) {
 			break
 		}
