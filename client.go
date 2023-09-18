@@ -12,10 +12,18 @@ var count int32 = 0
 var totalByte uint64 = 0
 var chans = []chan int {
 	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
+	make(chan int),
 	// make(chan int),
 }
-var numOfServers int32 = 2 
-var bytes [numOfServers]uint32
+
+var bytes [10]uint64
 
 func main() {
 	var tcpAddr *net.TCPAddr
@@ -41,7 +49,6 @@ func main() {
 			fmt.Println("Current number of connections is:", count)
 			for i := range chans {
 				chans[i] <- 0
-				chans[i] <- 0
 			}
 			fmt.Println("All are released!")
 			continue
@@ -65,8 +72,8 @@ func main() {
 			break
 		}
 	}
-
-	printSpeed()
+	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
+	printSpeed(elapsedTime)
 
 	// 控制台聊天功能加入
 	// for {
@@ -80,11 +87,14 @@ func main() {
 	// }
 }
 
-func printSpeed() {
-	elapsedTime := uint64(time.Since(startTime) / time.Millisecond / 1000)
+func printSpeed(elapsedTime uint64) {
 	fmt.Println("Time consumed:", elapsedTime, "s")
-	speed := totalByte / 1000 / elapsedTime * 8 / 1000
-	fmt.Println("Speed is:", speed, "Mbps")
+	totalSpeed := totalByte / 1000 / elapsedTime * 8 / 1000
+	fmt.Println("Speed is:", totalSpeed, "Mbps")
+	for _, i := range bytes {
+		speed := i / 1000 / elapsedTime * 8 / 1000
+		fmt.Println("Single speed is:", speed, "Mbps")
+	}
 }
 
 func listen() {
@@ -118,14 +128,14 @@ func onMessageRecived(conn *net.TCPConn) {
 	
 }
 
-func onReceive(conn *net.TCPConn, index int) {
+func onReceive(conn *net.TCPConn, index int32) {
 	fmt.Println("start receiving")
 	// conn.SetReadBuffer(128000)
 	buf := make([]byte, 256000)
 	for {
 		num, _ := conn.Read(buf)
 		atomic.AddUint64(&totalByte, uint64(num))
-		bytes[index] += num
+		bytes[index] += uint64(num)
 	}
 
 }
