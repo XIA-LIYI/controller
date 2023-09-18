@@ -15,7 +15,7 @@ var connectionMap map[string]*net.TCPConn
 var count int = 0
 var allReady bool = false
 var numOfNodesReady int32 = 0
-
+var canStop chan int = make(chan int)
 
 func main() {
 	go monitorAction()
@@ -44,7 +44,6 @@ func main() {
 		for _, conn := range connectionMap {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
 			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
-			fmt.Println(ipAddr)
 			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(5050) + "\n"))
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
@@ -56,6 +55,7 @@ func main() {
 	}
 	
 	fmt.Println("check for check, yes for start, no for stop")
+	<- canStop
 	// for {
 	// 	var msg string
 	// 	fmt.Scanln(&msg)
@@ -125,6 +125,7 @@ func stop() {
 	for _, conn := range connectionMap {
 		conn.Write([]byte("stop\n"))
 	}
+	canStop <- 1
 }
 
 func tcpPipe(conn *net.TCPConn) {
