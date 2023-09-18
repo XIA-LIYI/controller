@@ -69,20 +69,24 @@ func main() {
 }
 
 func monitorAction() {
-	var msg string
-	fmt.Scanln(&msg)
-	if msg == "check" {
-		for _, conn := range connectionMap {
-			go listen(conn)
-			conn.Write([]byte("check\n"))
+	for {
+		var msg string
+		fmt.Scanln(&msg)
+		if msg == "check" {
+			for _, conn := range connectionMap {
+				go listen(conn)
+				conn.Write([]byte("check\n"))
+			}
+		}
+		if msg == "yes" {
+			start()
+		}
+		if msg == "no" {
+			stop()
+			break
 		}
 	}
-	if msg == "yes" {
-		start()
-	}
-	if msg == "no" {
-		stop()
-	}
+
 }
 
 func listen(conn *net.TCPConn) {
