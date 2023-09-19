@@ -3,4 +3,4 @@
 #SBATCH --nodelist=xcne0
 #SBATCH --ntasks=1 --cpus-per-task=10
 
-srun ../client
+srun ./client

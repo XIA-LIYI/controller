@@ -4,4 +4,4 @@
 #SBATCH --nodelist=xgpg5
 #SBATCH --ntasks=1 --cpus-per-task=5
 
-srun ../client
+srun ./client
