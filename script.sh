@@ -7,7 +7,7 @@ xgph=(xgph5 xgph6 xgph7)
 
 for i in "${xcne[@]}"  
 do
-    srun --partition=long --nodelist={$i} --ntasks=1 --cpus-per-task=10 ./client
+    srun --partition=long --nodelist=i --ntasks=1 --cpus-per-task=10 ./client
 done
 
 # for i in "${xgph[@]}"  
