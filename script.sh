@@ -1,9 +1,9 @@
 #!/bin/bash
 
-xcne=(xcne2.sh xcne3.sh)
+xcne=(xcne2 xcne3)
 # xcne=(xcne1.sh xcne2.sh xcne3.sh)
 # xcne=(xcne1.sh xcne2.sh xcne3.sh)
-xgph=(xgph5.sh xgph6.sh xgph7.sh)
+xgph=(xgph5 xgph6 xgph7)
 
 for i in "${xcne[@]}"  
 do
