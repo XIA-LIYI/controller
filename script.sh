@@ -1,13 +1,21 @@
 #!/bin/bash
 
-xcne=(xcne2.sh xcne3.sh)
-# xcne=(xcne1.sh xcne2.sh xcne3.sh)
-# xcne=(xcne1.sh xcne2.sh xcne3.sh)
-xgph=(xgph5 xgph6 xgph7)
+xcne=(3 4 5)
+xgph=(xgph7.sh)
 
 for i in "${xcne[@]}"  
 do
-   sbatch ./xcne/$i
+   sbatch ./xcne/xcne$i.sh
+done
+
+for i in "${xgpg[@]}"  
+do
+   sbatch ./xcne/xcne$i.sh
+done
+
+for i in "${xgph[@]}"  
+do
+   sbatch ./xcne/xcne$i.sh
 done
 
 # for i in "${xgph[@]}"  
