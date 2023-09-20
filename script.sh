@@ -1,7 +1,8 @@
 #!/bin/bash
 
-xcne=(3 4 5)
-xgph=(xgph7.sh)
+xcne=(2 3 4 5 6 7)
+xgph=(5 6 7 8 9 10 11 12 13 14 15 16 17 18 19)
+xgpg=(3 4 5 6 7 8 9)
 
 for i in "${xcne[@]}"  
 do
@@ -10,12 +11,12 @@ done
 
 for i in "${xgpg[@]}"  
 do
-   sbatch ./xcne/xcne$i.sh
+   sbatch ./xgpg/xgpg$i.sh
 done
 
 for i in "${xgph[@]}"  
 do
-   sbatch ./xcne/xcne$i.sh
+   sbatch ./xgph/xgph$i.sh
 done
 
 # for i in "${xgph[@]}"  

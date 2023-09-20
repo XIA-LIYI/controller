@@ -18,7 +18,7 @@ var numOfNodesReady int32 = 0
 var canClose chan int = make(chan int)
 
 func main() {
-	go monitorAction()
+	go monitorInput()
 	var tcpAddr *net.TCPAddr
 	connectionMap = make(map[string]*net.TCPConn)
 	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:18787")
@@ -26,9 +26,7 @@ func main() {
 	tcpListener, err := net.ListenTCP("tcp", tcpAddr)
 	if (err != nil) {
 		fmt.Println(err)
-	}
-
-	defer tcpListener.Close()
+	} 
 
 	for {
 		tcpConn, err := tcpListener.AcceptTCP()
@@ -50,6 +48,7 @@ func main() {
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
 		check()
 		if (count == 14) {
+			tcpListener.Close()
 			break
 		}
 	}
@@ -68,7 +67,7 @@ func main() {
 
 }
 
-func monitorAction() {
+func monitorInput() {
 	for {
 		var msg string
 		fmt.Scanln(&msg)
