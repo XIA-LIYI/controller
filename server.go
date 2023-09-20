@@ -47,7 +47,7 @@ func main() {
 		}
 		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
 		check()
-		if (count == 14) {
+		if (count == 25) {
 			tcpListener.Close()
 			break
 		}
