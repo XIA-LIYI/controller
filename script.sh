@@ -3,7 +3,8 @@
 xcne=(2 3 4 5 6 7)
 xgph=(5 6 7 8 9 10 11 12 13 14 15 16 17 18 19)
 xgpg=(3 4 5 6 7 8 9)
-
+xgpe=(3 4 5 6 7 8 9 10 11)
+xgpd=(3 4 5 6 7 8 9)
 for i in "${xcne[@]}"  
 do
    sbatch ./xcne/xcne$i.sh
@@ -17,6 +18,16 @@ done
 for i in "${xgph[@]}"  
 do
    sbatch ./xgph/xgph$i.sh
+done
+
+for i in "${xgpe[@]}"  
+do
+   sbatch ./xgpe/xgpe$i.sh
+done
+
+for i in "${xgpd[@]}"  
+do
+   sbatch ./xgpd/xgpd$i.sh
 done
 
 # for i in "${xgph[@]}"  
