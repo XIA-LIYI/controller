@@ -127,6 +127,7 @@ func check() {
 	for i := 0; i < count; i++ {
 		fmt.Printf("Checking ip:" + ips[i] + " ")
 		for {
+			time.Sleep(time.Second)
 			connections[i].Write([]byte("check\n"))
 			buf := make([]byte, 100)
 			num, _ := connections[i].Read(buf)
