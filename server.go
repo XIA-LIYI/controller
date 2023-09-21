@@ -131,7 +131,7 @@ func check() {
 			num, _ := connections[i].Read(buf)
 			content := string(buf)[:num]
 			fmt.Println(content)
-			if (content == strconv.Itoa(int(count - 1))) {
+			if (content == strconv.Itoa(int(count))) {
 				break
 			} else {
 				continue
