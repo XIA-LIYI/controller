@@ -37,10 +37,6 @@ func main() {
 		
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		fmt.Println("Total number of connections:", count)
-
-		connections[count] = tcpConn
-		ips[count] = tcpConn.RemoteAddr().String()
-		count += 1
 		
 		// go tcpPipe(tcpConn)
 		for i := 0; i< count; i++ {
@@ -49,8 +45,25 @@ func main() {
 			connections[i].Write([]byte(ipAddr + ":" + strconv.Itoa(5050) + "\n"))
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
-		
 		check()
+		connections[count] = tcpConn
+		ips[count] = tcpConn.RemoteAddr().String()
+		count += 1
+		ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
+		tcpConn.Write([]byte("you" + ipAddr + ":" + strconv.Itoa(5050) + "\n"))
+		for {
+			buf := make([]byte, 100)
+			num, _ := tcpConn.Read(buf)
+			content := string(buf)[:num]
+			fmt.Println(content)
+			if (content == "OK") {
+				break
+			} else {
+				continue
+			}
+		}
+		
+
 		if (count == 25) {
 			tcpListener.Close()
 			break
@@ -127,19 +140,17 @@ func check() {
 	for i := 0; i < count; i++ {
 		fmt.Printf("Checking ip:" + ips[i] + " ")
 		for {
-			time.Sleep(time.Second)
 			connections[i].Write([]byte("check\n"))
 			buf := make([]byte, 100)
 			num, _ := connections[i].Read(buf)
 			content := string(buf)[:num]
 			fmt.Println(content)
-			if (content == strconv.Itoa(int(count))) {
+			if (content == strconv.Itoa(int(count - 1))) {
 				break
 			} else {
 				continue
 			}
 		}
-		time.Sleep(time.Second)
 	}
 
 }
