@@ -44,7 +44,7 @@ var chans = []chan int {
 
 var bytes [25]uint64
 
-var sendingByte int = 1250000000 / 24
+var sendingByte int = 1250000000 / 24 / 1000
 
 func main() {
 	var tcpAddr *net.TCPAddr
