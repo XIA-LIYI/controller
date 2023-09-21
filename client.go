@@ -182,7 +182,7 @@ func onSend(conn *net.TCPConn, ch chan int) {
 
 	// fmt.Println("start sending")
 	for {
-		// <- ticker.C
+		<- ticker.C
 		conn.Write(content)
 	}
 

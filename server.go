@@ -56,7 +56,7 @@ func main() {
 	fmt.Println("check for check, start for start, stop for stop")
 	start()
 	fmt.Println("starting")
-	time.Sleep(time.Second * 300)
+	time.Sleep(time.Second * 120)
 	getResult()
 	<- canClose
 	// for {
