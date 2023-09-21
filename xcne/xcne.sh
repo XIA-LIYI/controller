@@ -6,4 +6,4 @@
 #SBATCH --ntasks=2 --cpus-per-task=1
 
 srun -N 1 -n 1 ./client
-srun -N 1 -n 1 ./client
+srun -N 2 -n 1 ./client
