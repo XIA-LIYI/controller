@@ -1,9 +1,9 @@
 #!/bin/sh
 #SBATCH --time=20
 #SBATCH --partition=standard
-#SBATCH --nodes=8
-#SBATCH --ntasks=8 --cpus-per-task=1
+#SBATCH --nodes=9
+#SBATCH --ntasks=9 --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
-#SBATCH --nodelist=xgph0,xgph1,xgph2,xgph3,xgph4,xgpg0,xgpg1,xgpg2
-srun -n 8 ./client
+#SBATCH --nodelist=xgph0,xgph1,xgph2,xgph3,xgph4,xgpg0,xgpg1,xgpg2,xgpe2
+srun -n 9 ./client
 # srun -N 2 -n 2 ./client
