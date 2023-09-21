@@ -46,23 +46,6 @@ func main() {
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		check()
-		connections[count] = tcpConn
-		ips[count] = tcpConn.RemoteAddr().String()
-		count += 1
-		ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
-		tcpConn.Write([]byte("you" + ipAddr + ":" + strconv.Itoa(5050) + "\n"))
-		for {
-			buf := make([]byte, 100)
-			num, _ := tcpConn.Read(buf)
-			content := string(buf)[:num]
-			fmt.Println(content)
-			if (content == "OK") {
-				break
-			} else {
-				continue
-			}
-		}
-		
 
 		if (count == 25) {
 			tcpListener.Close()

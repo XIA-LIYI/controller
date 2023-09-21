@@ -38,7 +38,7 @@ var chans = []chan int {
 	make(chan int),
 	make(chan int),
 	make(chan int),
-	make(chan int),
+	// make(chan int),
 	// make(chan int),
 }
 
@@ -86,20 +86,20 @@ func main() {
 			fmt.Println("All are released!")
 			continue
 		}
-		if (content[0:3] == "you") {
-			for {
-				addr, _ := net.ResolveTCPAddr("tcp", content[3:])
-				_, err := net.DialTCP("tcp", nil, addr)
-				if (err != nil) {
-					fmt.Println(err)
-					continue
-				} else {
-					fmt.Println("connected!")
-				}
-				conn.Write([]byte("OK"))
-				break
-			}			
-		}
+		// if (content[0:3] == "you") {
+		// 	for {
+		// 		addr, _ := net.ResolveTCPAddr("tcp", content[3:])
+		// 		_, err := net.DialTCP("tcp", nil, addr)
+		// 		if (err != nil) {
+		// 			fmt.Println(err)
+		// 			continue
+		// 		} else {
+		// 			fmt.Println("connected!")
+		// 		}
+		// 		conn.Write([]byte("OK"))
+		// 		break
+		// 	}			
+		// }
 		if (content == "stop") {
 			break
 		}
