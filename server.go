@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"os"
 	// "sync/atomic"
 	// "time"
 )
@@ -96,6 +97,12 @@ func monitorInput() {
 }
 
 func getResult() {
+	file, _ := os.Create("data.txt")
+    defer func() {
+        if err := file.Close(); err != nil {
+            panic(err)
+        }
+    }()
 	for i := 0; i < count; i++ {
 		fmt.Printf(ips[i] + ": ")
 		for {
@@ -106,8 +113,8 @@ func getResult() {
 				continue
 			}
 			content := string(buf)[:num]
-			fmt.Printf(content)
-			fmt.Printf("\n")
+			fmt.Printf(content + "\n")
+			file.Write([]byte(content + "\n"))
 			break
 		}
 	}
