@@ -1,7 +1,7 @@
 package main
 
 import (
-	"bufio"
+	// "bufio"
 	"fmt"
 	"net"
 	"strconv"
@@ -11,7 +11,8 @@ import (
 	// "time"
 )
 
-var connectionMap map[string]*net.TCPConn
+var connections [25]*net.TCPConn
+var ips [25]string
 var count int = 0
 var allReady bool = false
 var numOfNodesReady int32 = 0
@@ -20,7 +21,6 @@ var canClose chan int = make(chan int)
 func main() {
 	go monitorInput()
 	var tcpAddr *net.TCPAddr
-	connectionMap = make(map[string]*net.TCPConn)
 	tcpAddr, _ = net.ResolveTCPAddr("tcp", "192.168.51.112:18787")
 
 	tcpListener, err := net.ListenTCP("tcp", tcpAddr)
@@ -34,18 +34,23 @@ func main() {
 		if err != nil {
 			continue
 		}
-		count += 1
+		
 		fmt.Println("A client connected:" + tcpConn.RemoteAddr().String())
 		fmt.Println("Total number of connections:", count)
+
+		connections[count] = tcpConn
+		ips[count] = tcpConn.RemoteAddr().String()
+		count += 1
 		
 		// go tcpPipe(tcpConn)
-		for _, conn := range connectionMap {
+		for _, conn := range connections {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
 			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
 			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(5050) + "\n"))
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
-		connectionMap[tcpConn.RemoteAddr().String()] = tcpConn
+		
+		
 		check()
 		if (count == 25) {
 			tcpListener.Close()
@@ -76,7 +81,7 @@ func monitorInput() {
 		var msg string
 		fmt.Scanln(&msg)
 		if msg == "check" {
-			for _, conn := range connectionMap {
+			for _, conn := range connections {
 				go listen(conn)
 				conn.Write([]byte("check\n"))
 			}
@@ -93,12 +98,12 @@ func monitorInput() {
 }
 
 func getResult() {
-	for ip, conn := range connectionMap {
-		fmt.Printf(ip + ": ")
+	for i := 0; i < count; i++ {
+		fmt.Printf(ips[i] + ": ")
 		for {
-			conn.Write([]byte("stop\n"))
+			connections[i].Write([]byte("stop\n"))
 			buf := make([]byte, 150)
-			num, err := conn.Read(buf)
+			num, err := connections[i].Read(buf)
 			if (err != nil) {
 				continue
 			}
@@ -120,12 +125,12 @@ func listen(conn *net.TCPConn) {
 }
 
 func check() {
-	for ip, conn := range connectionMap {
-		fmt.Printf("Checking ip:" + ip + " ")
+	for i := 0; i < count; i++ {
+		fmt.Printf("Checking ip:" + ips[i] + " ")
 		for {
-			conn.Write([]byte("check\n"))
+			connections[i].Write([]byte("check\n"))
 			buf := make([]byte, 100)
-			num, _ := conn.Read(buf)
+			num, _ := connections[i].Read(buf)
 			content := string(buf)[:num]
 			fmt.Println(content)
 			if (content == strconv.Itoa(int(count - 1))) {
@@ -140,33 +145,33 @@ func check() {
 }
 
 func start() {
-	for _, conn := range connectionMap {
+	for _, conn := range connections {
 		conn.Write([]byte("start\n"))
 	}
 
 }
 
-func tcpPipe(conn *net.TCPConn) {
+// func tcpPipe(conn *net.TCPConn) {
 
-	defer conn.Close()
+// 	defer conn.Close()
 
-	reader := bufio.NewReader(conn)
+// 	reader := bufio.NewReader(conn)
 
-	for {
-		message, err := reader.ReadString('\n')
-		if err != nil {
-			return
-		}
-		broadcast(conn.RemoteAddr().String() + ":" + string(message))
-	}
+// 	for {
+// 		message, err := reader.ReadString('\n')
+// 		if err != nil {
+// 			return
+// 		}
+// 		broadcast(conn.RemoteAddr().String() + ":" + string(message))
+// 	}
 
-}
+// }
 
-func broadcast(message string) {
-	for _, conn := range connectionMap {
-		conn.Write([]byte(message))
-	}
-}
+// func broadcast(message string) {
+// 	for _, conn := range connectionMap {
+// 		conn.Write([]byte(message))
+// 	}
+// }
 
 // func process(conn net.Conn) {
 // 	defer conn.Close()
