@@ -44,7 +44,7 @@ var chans = []chan int {
 
 var bytes [25]uint64
 
-var sendingByte int = 1250000000 / 25
+var sendingByte int = 1250000000 / 24
 
 func main() {
 	var tcpAddr *net.TCPAddr
@@ -114,6 +114,7 @@ func main() {
 		fmt.Println("Single speed is:", speed, "Mbps")
 		result = result + strconv.Itoa(int(speed)) + " "
 	}
+	result = result + strconv.Itoa(int(totalSpeed))
 	conn.Write([]byte(result))
 
 	// 控制台聊天功能加入
