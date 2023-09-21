@@ -48,7 +48,8 @@ func main() {
 		check()
 		connections[count] = tcpConn
 		ips[count] = tcpConn.RemoteAddr().String()
-		
+		count += 1
+
 		if (count == 25) {
 			tcpListener.Close()
 			break
