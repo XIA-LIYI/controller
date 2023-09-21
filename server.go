@@ -39,14 +39,16 @@ func main() {
 		fmt.Println("Total number of connections:", count)
 		
 		// go tcpPipe(tcpConn)
-		for i := 0; i< count; i++ {
+		for i := 0; i < count; i++ {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
 			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
 			connections[i].Write([]byte(ipAddr + ":" + strconv.Itoa(5050) + "\n"))
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		check()
-
+		connections[count] = tcpConn
+		ips[count] = tcpConn.RemoteAddr().String()
+		
 		if (count == 25) {
 			tcpListener.Close()
 			break
