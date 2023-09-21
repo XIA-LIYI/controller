@@ -44,7 +44,7 @@ var chans = []chan int {
 
 var bytes [25]uint64
 
-var sendingByte int = 1250000000 / 24
+var sendingByte int = 1250000000 / 24 /100
 
 func main() {
 	var tcpAddr *net.TCPAddr
@@ -175,7 +175,7 @@ func onReceive(conn *net.TCPConn, index int32) {
 func onSend(conn *net.TCPConn, ch chan int) {
 	// fmt.Println("start sending")
 	<- ch
-	ticker := time.NewTicker(time.Second)
+	ticker := time.NewTicker(time.Second / 100)
 	defer ticker.Stop()
 	// conn.SetWriteBuffer(1000000)
 	content := make([]byte, sendingByte)
