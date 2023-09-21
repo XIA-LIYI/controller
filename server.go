@@ -50,7 +50,6 @@ func main() {
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		
-		
 		check()
 		if (count == 25) {
 			tcpListener.Close()
@@ -133,7 +132,7 @@ func check() {
 			num, _ := connections[i].Read(buf)
 			content := string(buf)[:num]
 			fmt.Println(content)
-			if (content == strconv.Itoa(int(count - 1))) {
+			if (content == strconv.Itoa(int(count))) {
 				break
 			} else {
 				continue
