@@ -11,7 +11,7 @@ import (
 	// "time"
 )
 
-var connections [25]*net.TCPConn
+var connections = make([]*net.TCPConn, 25)
 var ips [25]string
 var count int = 0
 var allReady bool = false
