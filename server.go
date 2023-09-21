@@ -138,7 +138,7 @@ func check() {
 				continue
 			}
 		}
-		time.Sleep(time.Second / 100)
+		time.Sleep(time.Second)
 	}
 
 }
