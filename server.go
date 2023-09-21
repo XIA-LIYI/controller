@@ -43,10 +43,10 @@ func main() {
 		count += 1
 		
 		// go tcpPipe(tcpConn)
-		for _, conn := range connections {
+		for i := 0; i< count; i++ {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
 			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
-			conn.Write([]byte(ipAddr + ":" + strconv.Itoa(5050) + "\n"))
+			connections[i].Write([]byte(ipAddr + ":" + strconv.Itoa(5050) + "\n"))
 			// conn.Write([]byte("192.168.56.135:10000"))
 		}
 		
