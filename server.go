@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"os"
 	// "sync/atomic"
 	// "time"
 )
@@ -39,7 +40,7 @@ func main() {
 		fmt.Println("Total number of connections:", count)
 		
 		// go tcpPipe(tcpConn)
-		for i := 0; i< count; i++ {
+		for i := 0; i < count; i++ {
 			// conn.Write([]byte(tcpConn.RemoteAddr().String()))
 			ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
 			connections[i].Write([]byte(ipAddr + ":" + strconv.Itoa(5050) + "\n"))
@@ -49,20 +50,6 @@ func main() {
 		connections[count] = tcpConn
 		ips[count] = tcpConn.RemoteAddr().String()
 		count += 1
-		ipAddr := strings.Split(tcpConn.RemoteAddr().String(), ":")[0]
-		tcpConn.Write([]byte("you" + ipAddr + ":" + strconv.Itoa(5050) + "\n"))
-		for {
-			buf := make([]byte, 100)
-			num, _ := tcpConn.Read(buf)
-			content := string(buf)[:num]
-			fmt.Println(content)
-			if (content == "OK") {
-				break
-			} else {
-				continue
-			}
-		}
-		
 
 		if (count == 25) {
 			tcpListener.Close()
@@ -110,6 +97,12 @@ func monitorInput() {
 }
 
 func getResult() {
+	file, _ := os.Create("data.txt")
+    defer func() {
+        if err := file.Close(); err != nil {
+            panic(err)
+        }
+    }()
 	for i := 0; i < count; i++ {
 		fmt.Printf(ips[i] + ": ")
 		for {
@@ -120,8 +113,8 @@ func getResult() {
 				continue
 			}
 			content := string(buf)[:num]
-			fmt.Printf(content)
-			fmt.Printf("\n")
+			fmt.Printf(content + "\n")
+			file.Write([]byte(content + "\n"))
 			break
 		}
 	}
@@ -145,7 +138,7 @@ func check() {
 			num, _ := connections[i].Read(buf)
 			content := string(buf)[:num]
 			fmt.Println(content)
-			if (content == strconv.Itoa(int(count - 1))) {
+			if (content == strconv.Itoa(int(count))) {
 				break
 			} else {
 				continue
