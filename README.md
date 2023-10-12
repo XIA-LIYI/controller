@@ -1,4 +1,4 @@
 # controller
-A controller for NUS SoC tembusu server
+A speed tester for NUS SoC tembusu server
 
-Go + NodeJS
+Go
